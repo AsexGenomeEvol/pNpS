@@ -24,7 +24,7 @@ for codon in genetic_code_file.readlines():
 	f4_d[k] = int(codon[7])
 
 # /Volumes/dump/data/snp/timema/orfs/Tdi3.transdecoder.cds.fa
-print('transcript_id', 'f1', 'f2', 'f3', 'f4' )
+print('transcript_id', 'f1', 'f2', 'f3', 'f4', sep='\t')
 for seq_record in SeqIO.parse(sys.argv[1], "fasta"):
 	seqlen = len(seq_record)
 	f1 = 0; f2 = 0; f3 = 0; f4 = 0;
@@ -33,4 +33,4 @@ for seq_record in SeqIO.parse(sys.argv[1], "fasta"):
 		f2 += f2_d[str(seq_record.seq[0+sw:3+sw])]
 		f3 += f3_d[str(seq_record.seq[0+sw:3+sw])]
 		f4 += f4_d[str(seq_record.seq[0+sw:3+sw])]
-	print(seq_record.name, f1, f2, f3, f4)
+	print(seq_record.name, f1, f2, f3, f4, sep='\t')

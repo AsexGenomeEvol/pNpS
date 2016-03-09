@@ -1,8 +1,8 @@
 # http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG1 parsed
 
-genetic_code <- read.csv('./genetic_code.csv', row.names = 1)
+genetic_code <- read.csv('./data/genetic_code.csv', row.names = 1)
 
-data_path <- '/Volumes/dump/data/snp/timema/'
+data_path <- '/Volumes/dump/data/snp/timema/snp_codons/'
 condon_files <- paste(data_path,c('Tbi_snp_codons.csv','Tcs_snp_codons.csv','Tge_snp_codons.csv',
                   'Tpa_snp_codons.csv','Tsi_snp_codons.csv','Tcm_snp_codons.csv',
                   'Tdi_snp_codons.csv','Tms_snp_codons.csv','Tps_snp_codons.csv',
@@ -17,7 +17,7 @@ syn_nsyn_freq <- data.frame(spec = 'none',
 )
 
 for(sp_file in condon_files){
-  snptable <- read.csv(sp_file, sep = ' ', header = F, col.names = c('fa','pos','ref','alt','fa_lenth'))
+  snptable <- read.csv(sp_file, sep = '\t', header = F, col.names = c('fa','pos','ref','alt','fa_lenth'))
   for(i in 1:nrow(snptable)){
     ref <- as.character(snptable$ref[i])
     alt <- as.character(snptable$alt[i])

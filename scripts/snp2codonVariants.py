@@ -17,6 +17,7 @@ ffile.close()
 
 snp_file = open(sys.argv[2], "r")
 # snp_file = open("/Volumes/dump/data/snp/timema/filtered_snps/Tdi.filtered.snps", "r")
+# snp_file = open("./test_data/fake_snps", "r")
 
 headerline = snp_file.readline().split('\t')
 #snp = snp_file.readline().split('\t')
@@ -40,4 +41,4 @@ for snp in snp_file.readlines():
 		break
 	trink_alt = list(trink)
 	trink_alt[snp_codon_i] = snp_to
-	print(seq_id,snp_pos,trink,"".join(trink_alt), total_length)
+	print(seq_id,snp_pos,trink,"".join(trink_alt), total_length, sep='\t', end='\n', file=sys.stdout, flush=False)
