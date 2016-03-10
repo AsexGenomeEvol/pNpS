@@ -2,7 +2,36 @@
 
 genetic_code <- read.csv('./data/genetic_code.csv', row.names = 1)
 
-data_path <- '/home/jens/Desktop/Timema_project/polymorphism/polymorphism_computation/snp_codons/'
+# path to data as argument can be an argument
+if (length(args) == 0){
+  print("no data path provided, assuming data linked to data folder")
+  data_path <- './data/snp_codons/'
+} else {
+  data_path <- args[1]
+}
+
+# internal computing function
+getSnpCount<- function(snp_table, gc){
+  s = 0
+  ns = 0
+  for(i in 1:nrow(snp_table)){
+    
+    ref <- as.character(snp_table$ref[i])
+    alt <- as.character(snp_table$alt[i])
+    
+    refaa <- gc$aminoa[gc$seq == ref]
+    altaa <- gc$aminoa[gc$seq == alt]
+    
+    if(refaa == altaa){
+      s = s + 1
+    } else {
+      ns =	ns + 1
+    }
+  }
+  return(c(s,ns))
+}
+
+
 condon_files <- paste(data_path,c('Tbi_snp_codons.csv','Tce_snp_codons.csv','Tge_snp_codons.csv',
                   'Tpa_snp_codons.csv','Tsi_snp_codons.csv','Tcm_snp_codons.csv',
                   'Tdi_snp_codons.csv','Tms_snp_codons.csv','Tps_snp_codons.csv',
@@ -10,35 +39,44 @@ condon_files <- paste(data_path,c('Tbi_snp_codons.csv','Tce_snp_codons.csv','Tge
 synonimous = 0
 nonsynonimous = 0
 syn_nsyn_freq <- data.frame(spec = 'none',
-                            syn = synonimous, 
-                            s_freq = synonimous / (synonimous + nonsynonimous),
-                            nsyn = nonsynonimous, 
-                            ns_freq = nonsynonimous / (synonimous + nonsynonimous)
-)
+                            syn_st = 1,
+                            syn_nd = 1,
+                            syn_rd = 1,
+                            syn_total = synonimous, 
+                            s_freq = synonimous / (synonimous + nonsynonimous), 
+                            ns_st = 1,
+                            ns_nd = 1,
+                            ns_rd = 1,
+                            nsyn_total = nonsynonimous, 
+                            ns_f_cor_pw = 1)
 
 for(sp_file in condon_files){
-  snptable <- read.csv(sp_file, sep = '\t', header = F, col.names = c('fa','pos','ref','alt','fa_lenth'))
-  for(i in 1:nrow(snptable)){
-    ref <- as.character(snptable$ref[i])
-    alt <- as.character(snptable$alt[i])
-    
-    refaa <- genetic_code$aminoa[genetic_code$seq == ref]
-    altaa <- genetic_code$aminoa[genetic_code$seq == alt]
-    
-    if(refaa == altaa){
-      synonimous = synonimous + 1
-    } else {
-      nonsynonimous =	nonsynonimous + 1
-    }
-  }
+  snptable <- read.csv(sp_file, sep = ' ', header = F, col.names = c('fa','pos','ref','alt'))
   
-  syn_nsyn_freq <- rbind(syn_nsyn_freq, data.frame(
-  							  spec = substr(sp_file,1+nchar(data_path),3+nchar(data_path)),
-                              syn = synonimous, 
-                              s_freq = synonimous / (synonimous + nonsynonimous), 
-                              nsyn = nonsynonimous, 
-                              ns_freq = nonsynonimous / (synonimous + nonsynonimous)
-                        )                         )
+  stsnps <- substr(as.character(snptable$ref),2,3) == substr(as.character(snptable$alt),2,3)
+  ndsnps <- substr(as.character(snptable$ref),1,1) == substr(as.character(snptable$alt),1,1) & 
+    substr(as.character(snptable$ref),3,3) == substr(as.character(snptable$alt),3,3)
+  rdsnps <- substr(as.character(snptable$ref),1,2) == substr(as.character(snptable$alt),1,2)
+  
+  syn_st <- getSnpCount(snptable[stsnps,], genetic_code)
+  syn_nd <- getSnpCount(snptable[ndsnps,], genetic_code)
+  syn_rd <- getSnpCount(snptable[rdsnps,], genetic_code)
+  synonimous <- syn_st[1] + syn_nd[1] + syn_rd[1]
+  nonsynonimous <- syn_st[2] + syn_nd[2] + syn_rd[2]
+  
+  syn_nsyn_freq <- rbind(syn_nsyn_freq, data.frame(spec = substr(sp_file,1,3),
+                                                   syn_st = syn_st[1],
+                                                   syn_nd = syn_nd[1],
+                                                   syn_rd = syn_rd[1],
+                                                   syn_total = synonimous, 
+                                                   s_freq = synonimous / (synonimous + nonsynonimous),
+                                                   ns_st = syn_st[2],
+                                                   ns_nd = syn_nd[2],
+                                                   ns_rd = syn_rd[2],
+                                                   nsyn_total = nonsynonimous, 
+                                                   ns_freq = nonsynonimous / (synonimous + nonsynonimous)
+                                                   )
+                         )
 }
 syn_nsyn_freq <- syn_nsyn_freq[-1,]
 
