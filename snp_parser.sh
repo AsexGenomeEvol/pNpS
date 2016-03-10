@@ -1,9 +1,13 @@
 #!/bin/bash
 
-DATAPATH=/Volumes/dump/data/snp/timema/
+DATAPATH=/home/jens/Desktop/Timema_project/polymorphism/polymorphism_computation/
 declare -a timemas=("Tdi" "Tps" "Tsi" "Tcm" "Tms" "Tce" "Tge" "Tpa" "Tte" "Tbi")
 
 # Rscript ./scripts/genetic_code_parser.r
+
+#filtered_snps and degenerate_pos folders should be created in the directory before
+mkdir $DATAPATH'filtered_snps'
+mkdir $DATAPATH'degenerate_pos'
 
 ## now loop through the above array
 for sp in "${timemas[@]}"; do

@@ -2,8 +2,8 @@
 
 genetic_code <- read.csv('./data/genetic_code.csv', row.names = 1)
 
-data_path <- '/Volumes/dump/data/snp/timema/snp_codons/'
-condon_files <- paste(data_path,c('Tbi_snp_codons.csv','Tcs_snp_codons.csv','Tge_snp_codons.csv',
+data_path <- '/home/jens/Desktop/Timema_project/polymorphism/polymorphism_computation/snp_codons/'
+condon_files <- paste(data_path,c('Tbi_snp_codons.csv','Tce_snp_codons.csv','Tge_snp_codons.csv',
                   'Tpa_snp_codons.csv','Tsi_snp_codons.csv','Tcm_snp_codons.csv',
                   'Tdi_snp_codons.csv','Tms_snp_codons.csv','Tps_snp_codons.csv',
                   'Tte_snp_codons.csv'), sep = '')
