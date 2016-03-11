@@ -59,7 +59,7 @@ for(sp_file in condon_files){
   synonimous <- syn_st[1] + syn_nd[1] + syn_rd[1]
   nonsynonimous <- syn_st[2] + syn_nd[2] + syn_rd[2]
   
-  syn_nsyn_freq <- rbind(syn_nsyn_freq, data.frame(spec = substr(sp_file,1,3),
+  syn_nsyn_freq <- rbind(syn_nsyn_freq, data.frame(spec = substr(sp_file,nchar(data_path)+1,nchar(data_path)+3),
                                                    syn_st = syn_st[1],
                                                    syn_nd = syn_nd[1],
                                                    syn_rd = syn_rd[1],
