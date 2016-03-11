@@ -3,12 +3,7 @@
 genetic_code <- read.csv('./data/genetic_code.csv', row.names = 1)
 
 # path to data as argument can be an argument
-if (length(args) == 0){
-  print("no data path provided, assuming data linked to data folder")
-  data_path <- './data/snp_codons/'
-} else {
-  data_path <- args[1]
-}
+data_path <- './data/snp_codons/'
 
 # internal computing function
 getSnpCount<- function(snp_table, gc){
@@ -47,15 +42,15 @@ syn_nsyn_freq <- data.frame(spec = 'none',
                             ns_st = 1,
                             ns_nd = 1,
                             ns_rd = 1,
-                            nsyn_total = nonsynonimous, 
-                            ns_f_cor_pw = 1)
+                            nsyn_total = nonsynonimous,
+                            ns_freq = 0)
 
 for(sp_file in condon_files){
-  snptable <- read.csv(sp_file, sep = ' ', header = F, col.names = c('fa','pos','ref','alt'))
+  snptable <- read.csv(sp_file, sep = '\t', header = F, col.names = c('fa','pos','ref','alt','fa_length'))
   
   stsnps <- substr(as.character(snptable$ref),2,3) == substr(as.character(snptable$alt),2,3)
   ndsnps <- substr(as.character(snptable$ref),1,1) == substr(as.character(snptable$alt),1,1) & 
-    substr(as.character(snptable$ref),3,3) == substr(as.character(snptable$alt),3,3)
+            substr(as.character(snptable$ref),3,3) == substr(as.character(snptable$alt),3,3)
   rdsnps <- substr(as.character(snptable$ref),1,2) == substr(as.character(snptable$alt),1,2)
   
   syn_st <- getSnpCount(snptable[stsnps,], genetic_code)
@@ -80,3 +75,4 @@ for(sp_file in condon_files){
 }
 syn_nsyn_freq <- syn_nsyn_freq[-1,]
 
+write.csv(syn_nsyn_freq,'./data/snp_counts.csv')

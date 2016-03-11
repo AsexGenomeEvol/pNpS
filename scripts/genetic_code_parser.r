@@ -1,7 +1,7 @@
 # http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG1
 # note, that different genetic code can be used if it is provided in the format as genetic_code.csv
 
-genetic_code <- read.csv('./data/genetic_code.csv', row.names = 1)
+genetic_code <- read.csv('../data/genetic_code.csv', row.names = 1)
 genetic_code$f1 <- 0
 genetic_code$f2 <- 0
 genetic_code$f3 <- 0
@@ -38,9 +38,9 @@ for(line_index in 1:nrow(genetic_code)){
 }
 
 if(all(rowSums(genetic_code[,4:7]) == 3)){
-	print('Genetic code updated')
+	print('Genetic code stats computed')
 	print('Variables f1 - f4 gives number of n folded degenerate sites per codon')
 	print('Variables s_{st, nd, rd} gives number of synonimous snps per st, nd or rd site')
 }
 
-write.csv(genetic_code,'./data/genetic_code_stats.csv')
+write.csv(genetic_code,'../data/genetic_code_stats.csv')
