@@ -22,4 +22,10 @@ This repository was created for scripts counting synonimous and non-synonimous S
 ./data/**genetic_code_stats.csv** - genetic code with computed stats: f1-f4 n-fold degenerates sites per codon, and number of theoretical synonimous substitutions per first, second or third position per codon.
 
 
+## Plans
+
+well, it seems, that what we really want is Dn / Ds, which can be computed according to manual http://sites.biology.duke.edu/rausher/DNDS.pdf, or we can just use package PAML http://abacus.gene.ucl.ac.uk/software/paml.html
+The quesiton is, if we want to keep good track about data processing, what we loose if we use PAML. On the other hand, it is widely used so it might be just ok and fast solution.Maybe doing both could give us better idea if there is anything fishy around.
+
+It would be awesome to have better idea what exactly we are interested in. Jens?
 
