@@ -70,3 +70,4 @@ for sp in "${timemas[@]}"; do
 done
 
 Rscript ./scripts/SynSubsFreq.R
+Rscript ./scripts/SynSubsFreqTotal.R
