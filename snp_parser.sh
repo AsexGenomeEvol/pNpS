@@ -64,8 +64,8 @@ declare -a timemas=("Tdi" "Tps" "Tsi" "Tcm" "Tms" "Tce" "Tge" "Tpa" "Tte" "Tbi")
 
 ## now loop through the above array
 for sp in "${timemas[@]}"; do
-	python ./scripts/snp2codonVariants.py './data/orfs/'$sp'3.transdecoder.cds.fa' './data/filtered_snps/'$sp'.filtered.snps' > './data/snp_codons/'$sp'_snp_codons.csv'
-	python ./scripts/degeneratedSites.py './data/orfs/'$sp'3.transdecoder.cds.fa' ./data/genetic_code_stats.csv > './data/degenerate_pos/'$sp'_degenerate_pos.csv'
+	python ./scripts/snp2codonVariants.py './data/orfs/'$sp'.cds.fa' './data/filtered_snps/'$sp'.filtered.snps' > './data/snp_codons/'$sp'_snp_codons.csv'
+	python ./scripts/degeneratedSites.py './data/orfs/'$sp'.cds.fa' ./data/genetic_code_stats.csv > './data/degenerate_pos/'$sp'_degenerate_pos.csv'
 	echo "$sp ... Done"
 done
 
