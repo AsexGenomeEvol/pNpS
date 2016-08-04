@@ -10,6 +10,7 @@ if [ -z "$1" ]; then
 	echo "...degenerate_pos/"
 	mkdir -p './data/filtered_snps'
 	mkdir -p './data/degenerate_pos'
+	mkdir -p './data/snp_codons'
 else
 	echo "saving computed data to  $1..."
 	echo "...filtered_snps"
@@ -18,6 +19,7 @@ else
 	echo "crating output folders in $1"
 	mkdir -p $1'filtered_snps'
 	mkdir -p $1'degenerate_pos'
+	mkdir -p $1'snp_codons'
 	
 	if [ -h './data/filtered_snps' ]
 		then
